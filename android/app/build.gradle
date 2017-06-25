@@ -96,6 +96,14 @@ android {
             abiFilters "armeabi-v7a", "x86"
         }
     }
+    signingConfigs {
+        release {
+            storeFile file(PUN_PROJECT_RELEASE_STORE_FILE)
+            storePassword PUN_PROJECT_RELEASE_STORE_PASSWORD
+            keyAlias PUN_PROJECT_RELEASE_KEY_ALIAS
+            keyPassword PUN_PROJECT_RELEASE_KEY_PASSWORD
+        }
+    }
     splits {
         abi {
             reset()
@@ -108,6 +116,7 @@ android {
         release {
             minifyEnabled enableProguardInReleaseBuilds
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
+            signingConfig signingConfigs.release
         }
     }
     // applicationVariants are e.g. debug, release
@@ -126,6 +135,7 @@ android {
 }
 
 dependencies {
+    compile project(':@remobile/react-native-toast')
     compile project(':react-native-vector-icons')
     compile project(':react-native-share')
     compile project(':react-native-image-picker')

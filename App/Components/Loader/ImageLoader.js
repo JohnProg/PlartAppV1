@@ -1,52 +1,36 @@
 'use strict';
 
 import React, { Component } from 'react';
-import { ActivityIndicator, Image, Platform } from 'react-native';
+import { ActivityIndicator, Image, View, Text,Platform } from 'react-native';
 
 export default class ImageLoader extends Component {
   constructor(props){
     super(props);
     this.state = {
-      isLoading: false
+      isImageLoading: true,
+      progress: 0,
     }
   }
-   handleLoadStart = () => {
-     if (!this.state.isLoading) {
-       this.setState({isLoading: true});
-     }
-   }
-   handleProgress = (event) => {
-    //  const progress = event.nativeEvent.loaded / event.nativeEvent.total;
-    //  this.setState({isLoading: progress < 1});
-   }
-   handleError = (event) => {
-     this.setState({isLoading: false});
-   }
-   handleLoad = (event) => {
-     this.setState({isLoading: false});
-   }
-   render(){
-     const { indicatorStyle, style, source } = this.props;
-     var content = null;
 
-    if (source && source.uri && this.state.isLoading) {
-      content = <ActivityIndicator
-          animating={true}
-          color={ Platform.OS === 'ios' ? '#673AB7' :  null}
-          size={'large'}
-          style={indicatorStyle}/>;
-    } else {
-      content = null;
-    }
+  render() {
+    const { indicatorStyle, style, source, imageLoaded } = this.props;
+    const { isImageLoading } = this.state;
 
-    return <Image onLoadStart={this.handleLoadStart}
-                  onProgress={this.handleProgress}
-                  onError={this.handleError}
-                  onLoad={this.handleLoad}
-                  source={source}
-                  style={style}
-                  resizeMode={'cover'}>
-               {content}
+    return <Image
+              onLoadProgress={(e) => this.setState({progress: Math.max(0, Math.round(100 * e.nativeEvent.written / e.nativeEvent.total))}) }
+              onLoadEnd={() => {
+                this.setState({isImageLoading: false});
+                if (imageLoaded) imageLoaded();
+              }}
+              source={source}
+              style={style}
+              resizeMode='cover'>
+              { isImageLoading ?
+                <ActivityIndicator
+                    animating={true}
+                    color={ Platform.OS === 'ios' ? '#673AB7' :  null}
+                    size={'large'}
+                    style={indicatorStyle}/> : null }
            </Image>
     }
 }

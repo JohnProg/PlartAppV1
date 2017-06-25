@@ -21,23 +21,23 @@ var styles = StyleSheet.create({
     borderTopWidth: 1,
     borderColor: '#e3e3e3'
   },
-  labelText:{
+  labelText: {
     fontSize: 10
   }
 });
 
-const CustomTabBar = ({containerWidth, goToPage, scrollValue, tabs, activeTab}) => {
+const CustomTabBar = ({ containerWidth, goToPage, scrollValue, tabs, activeTab }) => {
   let numberOfTabs = tabs.length,
-      tabUnderlineStyle = {
-        position: 'absolute',
-        width: containerWidth / numberOfTabs,
-        height: 4,
-        backgroundColor: colors.purple,
-        bottom: 0
-      },
-      left = scrollValue.interpolate({
-        inputRange: [0, 1], outputRange: [0, containerWidth / numberOfTabs]
-      });
+    tabUnderlineStyle = {
+      position: 'absolute',
+      width: containerWidth / numberOfTabs,
+      height: 4,
+      backgroundColor: colors.purple,
+      bottom: 0
+    },
+    left = scrollValue.interpolate({
+      inputRange: [0, 1], outputRange: [0, containerWidth / numberOfTabs]
+    });
 
   const renderTabOption = (valsString, page) => {
     let vals = valsString.split('!$#');
@@ -45,8 +45,8 @@ const CustomTabBar = ({containerWidth, goToPage, scrollValue, tabs, activeTab}) 
     return (
       <TouchableOpacity key={valsString} onPress={() => goToPage(page)} style={styles.tab}>
         <Icon name={vals[1]}
-              size={parseInt(vals[2])}
-              color={activeTab === page ? colors.purple : 'gray'} />
+          size={parseInt(vals[2])}
+          color={activeTab === page ? colors.purple : 'gray'} />
         <Text style={styles.labelText}>
           {vals[0]}
         </Text>
@@ -59,7 +59,7 @@ const CustomTabBar = ({containerWidth, goToPage, scrollValue, tabs, activeTab}) 
       <View style={styles.tabs}>
         {tabs.map((tab, i) => renderTabOption(tab, i))}
       </View>
-      <Animated.View style={[tabUnderlineStyle, {left}]} />
+      <Animated.View style={[tabUnderlineStyle, { left }]} />
     </View>
   );
 };

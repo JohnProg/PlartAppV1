@@ -36,10 +36,9 @@ export default class AboutMe extends Component{
       <View style={{flex: 1, backgroundColor: '#EFEFF4',}}>
         <Header
             title="Acerca de la App"
-            leftText={<Icon name='angle-left' size={25}/>}
-            rightText=' '
+            leftText={<Icon name='angle-left' size={30}/>}
             onLeftPress={ () => this.props.navigator.pop() } />
-        <ScrollView style={{marginTop: 65}}>
+        <ScrollView>
           <TableView>
             <Section header={'Info'}>
               <Cell

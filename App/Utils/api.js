@@ -72,6 +72,9 @@ export default {
   postSavePersonalInfo(data) {
     return postData(`${API_URL}/me/step_2/`, data, 'PUT');
   },
+  postCreateAd(data) {
+    return postData(`${API_URL}/advertisement/`, data, 'POST');
+  },
   updatePersonalInfo(data) {
     return postData(`${API_URL}/me/update_profile/`, data, 'PUT');
   },
@@ -81,11 +84,17 @@ export default {
   updatePersonalCoverPhoto(data) {
     return postData(`${API_URL}/me/update_photo_front/`, data, 'PUT');
   },
+  getMyAdvertisements(token) {
+    return getData(`${API_URL}/me/get_advertisement/`, token);
+  },
   getProfessions() {
     return getData(`${API_URL}/professions/`);
   },
-  getMessages(token) {
+  getNotifications(token) {
     return getData(`${API_URL}/notifications/`, token);
+  },
+  getLocations(token) {
+    return getData(`${API_URL}/locations/`, token);
   },
   getAdvertisements(token) {
     return getData(`${API_URL}/advertisement/`, token);

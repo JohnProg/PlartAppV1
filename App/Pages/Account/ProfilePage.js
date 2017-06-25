@@ -15,8 +15,8 @@ import EditProfilePage from './EditProfilePage';
 import IntroPage from './IntroPage';
 
 // Components
-import { ImageLoader } from '../../Components/Loader';
 import Header from './../../Components/Header';
+import { ImageLoader } from '../../Components/Loader';
 
 // Utils
 import api from '../../Utils/api';
@@ -33,6 +33,7 @@ export default class Profile extends Component {
     super(props)
     this.state = {
       isLoading: false,
+      isLoadingAvatar: true,
       showModal: false,
       uploadingCover: false,
       user: props.getCurrentUser()
@@ -70,7 +71,8 @@ export default class Profile extends Component {
   }
 
   _renderButtonProfile() {
-    if(!this.state.isLoading && !this.state.uploadingCover) {
+    const { isLoadingAvatar, isLoading, uploadingCover } = this.state;
+    if(!isLoadingAvatar && !isLoading && !uploadingCover) {
       return (
         <TouchableOpacity
           style={{position: 'absolute', top: 40, right: 30, backgroundColor: '#fff', padding: 7, borderRadius: 5}}
@@ -91,6 +93,10 @@ export default class Profile extends Component {
     return null;
   }
 
+  updateLoadingAvatar() {
+    this.setState({isLoadingAvatar: false});
+  }
+
   renderTab(name, page, isTabActive, onPressHandler, onLayoutHandler) {
    return <TouchableOpacity
      key={`${name}_${page}`}
@@ -101,6 +107,14 @@ export default class Profile extends Component {
       <Icon name={name} size={25} color={ isTabActive ? '#000' : 'gray'} style={{backgroundColor: 'transparent'}}/>
    </TouchableOpacity>;
   }
+  // <Image
+  //   onLoadStart={this.handleLoadStart}
+  //   onProgress={this.handleProgress}
+  //   onError={this.handleError}
+  //   onLoad={this.handleLoad}
+  //   source={{uri: 'http://demos.jquerymobile.com/1.4.5/_assets/img/newyork.jpg', width: 400, height: 400}} >
+  //     {imgLoader ? <Text> holaaa</Text> : <Text> listo</Text>}
+  //   </Image>
 
   render() {
     let user = this.state.user;
@@ -124,12 +138,13 @@ export default class Profile extends Component {
             <View key="parallax-header" style={ styles.parallaxHeader }>
               { this._renderButtonProfile() }
               { this._renderButtonCamara() }
-
                 {
-                  !this.state.uploadingCover ? <ImageLoader
+                  !this.state.uploadingCover ?
+                  <ImageLoader
                     source={helpers.setImageByDefault(user, 'photo')}
+                    indicatorStyle={{flex: 1, backgroundColor: 'rgba(220, 213, 228, 0.54)', borderRadius: AVATAR_SIZE / 2}}
                     style={[styles.avatar, {width: AVATAR_SIZE, height: AVATAR_SIZE}]}
-                    indicatorStyle={{flex: 1, backgroundColor: 'rgba(220, 213, 228, 0.54)'}} /> : null
+                    imageLoaded={this.updateLoadingAvatar.bind(this)} /> : null
                 }
               {
                 !this.state.uploadingCover ? <Text style={ styles.sectionSpeakerText }>
@@ -183,8 +198,8 @@ export default class Profile extends Component {
               <View style={{flex: 1, alignItems: 'center', marginTop: 50}} tabLabel={'business-center'} key={'business-center'}>
                   <Text >No hay historial de trabajo</Text>
               </View>
-              <View style={{flex: 1, alignItems: 'center', marginTop: 50}} tabLabel={'photo-camera'} key={'photo-camera'}>
-                <Text >No hay fotos</Text>
+              <View style={{flex: 1, alignItems: 'center', marginTop: 50}} tabLabel={'comment'} key={'comment'}>
+                <Text >No hay comentarios</Text>
               </View>
             </ScrollableTabView>
         </ParallaxScrollView>

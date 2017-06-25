@@ -1,7 +1,7 @@
- 'use strict';
+'use strict';
 
- import React, { Component } from 'react';
- import { Alert, AsyncStorage, BackAndroid, ScrollView, TextInput, View } from 'react-native';
+import React, { Component } from 'react';
+import { Alert, AsyncStorage, BackAndroid, ScrollView, TextInput, View } from 'react-native';
 
 import Dashboard from '../Dashboard';
 
@@ -9,7 +9,7 @@ import Dashboard from '../Dashboard';
 import Button from '../../Components/Button';
 import H1 from '../../Components/H1';
 import Header from './../../Components/Header';
-import {OverlayLoader} from '../../Components/Loader';
+import { OverlayLoader } from '../../Components/Loader';
 // import PushConfig from './../../Config/PushConfig';
 
 // Utils
@@ -35,19 +35,19 @@ export default class Login extends Component {
   }
 
   login = () => {
-    this.setState({isLoading: true});
+    this.setState({ isLoading: true });
     api.authWithPassword({
-        'username': this.state.email,
-        'password': this.state.password,
-        'device_key': this.state.device_key
-      })
+      'username': this.state.email,
+      'password': this.state.password,
+      'device_key': this.state.device_key
+    })
       .then(authData => {
-        this.setState({isLoading: false});
-        AsyncStorage.setItem('user_data', JSON.stringify(authData));
-        this.props.navigator.push({component: Dashboard});
+        this.setState({ isLoading: false });
+        AsyncStorage.setItem('user', JSON.stringify(authData));
+        this.props.navigator.resetTo({ component: Dashboard });
       })
       .catch(errorObj => {
-        this.setState({isLoading: false});
+        this.setState({ isLoading: false });
         let errorMessage = helpers.formatError(errorObj);
 
         setTimeout(() => {
@@ -57,20 +57,28 @@ export default class Login extends Component {
   }
 
   focusNextField(nextField) {
-   this.refs[nextField].focus();
+    this.refs[nextField].focus();
   }
 
   render() {
-    return(
-      <View style={{flex:1, backgroundColor: '#673AB7'}}>
+    return (
+      <View style={styles.mainContainer}>
         {/*<PushConfig onChangeToken={deviceKey => this.setState({device_key: deviceKey || ""})}/>*/}
+        <Header
+          title="Iniciar Sesión"
+          leftText="Atrás"
+          rightText=" "
+          onLeftPress={() => {
+            this.props.navigator.pop(0);
+          }}
+        />
         <ScrollView contentContainerStyle={styles.container}>
           <OverlayLoader visible={this.state.isLoading} />
           <H1 color='#fff'>PUN</H1>
           <TextInput
             ref="1"
             style={styles.textField}
-            onChangeText={(text) => this.setState({email: text})}
+            onChangeText={(text) => this.setState({ email: text })}
             value={this.state.email}
             keyboardType='email-address'
             placeholder={"Correo electrónico"}
@@ -84,7 +92,7 @@ export default class Login extends Component {
           <TextInput
             ref="2"
             style={styles.textField}
-            onChangeText={(text) => this.setState({password: text})}
+            onChangeText={(text) => this.setState({ password: text })}
             value={this.state.password}
             secureTextEntry={true}
             placeholder={"Contraseña"}
@@ -94,16 +102,9 @@ export default class Login extends Component {
             enablesReturnKeyAutomatically={true}
             autoCapitalize="none"
             onSubmitEditing={this.login}
-           />
-          <Button onPress={ () => this.login() }>Iniciar sesión</Button>
+          />
+          <Button onPress={() => this.login()}>Iniciar sesión</Button>
         </ScrollView>
-        <Header
-            title="Iniciar Sesión"
-            leftText = "Atrás"
-            rightText = " "
-            onLeftPress={ () => {
-              this.props.navigator.pop(0);
-            }} />
       </View>
     );
   }

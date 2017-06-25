@@ -12,5 +12,5 @@ const styles = StyleSheet.create({
   }
 });
 
-export default ({children, color, style}) =>
+export default ({children, color = '#fff', style}) =>
   <Text style={[{color: color}, styles.titleText, style]}>{children}</Text>

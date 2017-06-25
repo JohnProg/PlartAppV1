@@ -4,27 +4,26 @@ const height = Dimensions.get('window').height;
 const circleSize = height / 8;
 
 const styles = StyleSheet.create({
+  mainContainer: {
+    flex: 1, 
+    backgroundColor: '#fff',
+  },
   container: {
-    flex: 1,
+    flex:1, 
     justifyContent: 'center',
-    alignItems: 'center',
-    paddingLeft: 20,
-    paddingRight: 20,
-    backgroundColor: 'white'
+    paddingHorizontal: 20,
+    backgroundColor: 'white',
   },
   title: {
     color: '#5d5d5d',
     fontSize: 20,
-    textAlign: 'center'
+    textAlign: 'center',
   },
   featureContainer: {
-    marginTop: 40,
-    marginBottom: 20,
-    marginLeft: 10,
-    marginRight: 10,
+    marginTop: 20,
     justifyContent: 'center',
     flexDirection: 'row',
-    flexWrap: 'wrap'
+    flexWrap: 'wrap',
   },
   featureOverlay: {
     justifyContent: 'center',
@@ -36,17 +35,17 @@ const styles = StyleSheet.create({
   feature: {
     height: circleSize,
     margin: 10,
-    width: circleSize
+    width: circleSize,
   },
   featureImage: {
     height: circleSize,
-    width: circleSize
+    width: circleSize,
   },
   featureText: {
     color: '#fff',
-    fontWeight: '600',
-    fontSize: 14,
-    textAlign: 'center'
+    marginHorizontal: 5,
+    fontSize: 13,
+    textAlign: 'center',
   },
 });
 

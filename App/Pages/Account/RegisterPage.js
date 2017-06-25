@@ -7,7 +7,7 @@ import { Alert, AsyncStorage, BackAndroid, ScrollView, TextInput, View } from 'r
 import Button from './../../Components/Button';
 import H1 from '../../Components/H1';
 import Header from './../../Components/Header';
-import {OverlayLoader} from '../../Components/Loader';
+import { OverlayLoader } from '../../Components/Loader';
 // import PushConfig from './../../Config/PushConfig';
 
 // Pages
@@ -39,88 +39,88 @@ export default class Register extends Component {
   }
 
   register = () => {
-   var user = this.state;
+    var user = this.state;
 
-   this.setState({isLoading: true});
-   api.registerUser(user)
-    .then((authData) => {
-      this.setState({ isLoading: false, username: '', email: '', password: '', device_key: ''});
-      AsyncStorage.setItem('user_data', JSON.stringify(authData));
-      this.props.navigator.push({
-        component: FeaturesPage,
-        passProps: {token: authData.token}
+    this.setState({ isLoading: true });
+    api.registerUser(user)
+      .then((authData) => {
+        this.setState({ isLoading: false, username: '', email: '', password: '', device_key: '' });
+        AsyncStorage.setItem('user', JSON.stringify(authData));
+        this.props.navigator.resetTo({
+          component: FeaturesPage,
+          passProps: { token: authData.token },
+        });
+      })
+      .catch((errorObj) => {
+        this.setState({ isLoading: false });
+        let errorMessage = helpers.formatError(errorObj);
+
+        setTimeout(() => {
+          Alert.alert('Error', errorMessage);
+        }, 100);
       });
-    })
-    .catch((errorObj) => {
-      this.setState({isLoading: false});
-      let errorMessage = helpers.formatError(errorObj);
-
-      setTimeout(() => {
-        Alert.alert('Error', errorMessage);
-      }, 100);
-    });
   }
 
   focusNextField(nextField) {
     this.refs[nextField].focus();
   }
-  
+
   render() {
-     return(
-       <View style={{flex:1, backgroundColor: '#673AB7'}}>
-         {/*<PushConfig onChangeToken={deviceKey => this.setState({device_key: deviceKey || ""})}/>*/}
-         <ScrollView contentContainerStyle={styles.container}>
-            <OverlayLoader visible={this.state.isLoading} />
-            <H1 color='#fff'>Paso 1</H1>
-            <TextInput
-              ref="1"
-               style={styles.textField}
-               onChangeText={(text) => this.setState({username: text})}
-               value={this.state.username}
-               placeholder={"Usuario"}
-               clearButtonMode='always'
-               autoCorrect={false}
-               returnKeyType={'next'}
-               enablesReturnKeyAutomatically={true}
-               autoCapitalize="none"
-               onSubmitEditing={() => this.focusNextField('2')}
-             />
-            <TextInput
-              ref="2"
-               style={styles.textField}
-               onChangeText={(text) => this.setState({email: text})}
-               value={this.state.email}
-               keyboardType='email-address'
-               placeholder={"Correo electrónico"}
-               clearButtonMode='always'
-               autoCorrect={false}
-               returnKeyType={'next'}
-               enablesReturnKeyAutomatically={true}
-               autoCapitalize="none"
-               onSubmitEditing={() => this.focusNextField('3')}
-             />
-            <TextInput
-              ref="3"
-               style={styles.textField}
-               onChangeText={(text) => this.setState({password: text})}
-               value={this.state.password}
-               secureTextEntry={true}
-               placeholder={"Contraseña"}
-               clearButtonMode='always'
-               autoCorrect={false}
-               returnKeyType={'done'}
-               enablesReturnKeyAutomatically={true}
-               autoCapitalize="none"
-               onSubmitEditing={this.register}
-             />
-         </ScrollView>
-         <Header
-             title="Crear cuenta"
-             leftText = "Atrás"
-             rightText = "Siguiente"
-             onLeftPress={ () => this.props.navigator.pop(0) }
-             onRightPress={ () => this.register() } />
-       </View>
-     );
-   }
+    return (
+      <View style={styles.mainContainer}>
+        <Header
+          title="Crear cuenta"
+          leftText="Atrás"
+          rightText="Siguiente"
+          onLeftPress={() => this.props.navigator.pop(0)}
+          onRightPress={() => this.register()} />
+        {/*<PushConfig onChangeToken={deviceKey => this.setState({device_key: deviceKey || ""})}/>*/}
+        <ScrollView contentContainerStyle={styles.container}>
+          <OverlayLoader visible={this.state.isLoading} />
+          <H1 color='#fff'>Paso 1</H1>
+          <TextInput
+            ref="1"
+            style={styles.textField}
+            onChangeText={(text) => this.setState({ username: text })}
+            value={this.state.username}
+            placeholder={"Usuario"}
+            clearButtonMode='always'
+            autoCorrect={false}
+            returnKeyType={'next'}
+            enablesReturnKeyAutomatically={true}
+            autoCapitalize="none"
+            onSubmitEditing={() => this.focusNextField('2')}
+          />
+          <TextInput
+            ref="2"
+            style={styles.textField}
+            onChangeText={(text) => this.setState({ email: text })}
+            value={this.state.email}
+            keyboardType='email-address'
+            placeholder={"Correo electrónico"}
+            clearButtonMode='always'
+            autoCorrect={false}
+            returnKeyType={'next'}
+            enablesReturnKeyAutomatically={true}
+            autoCapitalize="none"
+            onSubmitEditing={() => this.focusNextField('3')}
+          />
+          <TextInput
+            ref="3"
+            style={styles.textField}
+            onChangeText={(text) => this.setState({ password: text })}
+            value={this.state.password}
+            secureTextEntry={true}
+            placeholder={"Contraseña"}
+            clearButtonMode='always'
+            autoCorrect={false}
+            returnKeyType={'done'}
+            enablesReturnKeyAutomatically={true}
+            autoCapitalize="none"
+            onSubmitEditing={this.register}
+          />
+        </ScrollView>
+      </View>
+    );
+  }
 }

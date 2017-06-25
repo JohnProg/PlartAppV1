@@ -9,13 +9,12 @@ const STATUS_BAR_HEIGHT = 20;
 
 const styles = StyleSheet.create({
   navBarContainer: {
-    position: 'absolute',
     top: 0,
     left: 0,
     right: 0,
     backgroundColor: '#fff',
-    shadowColor: '#e3e3e3',
-    shadowOpacity: 0.9
+    borderWidth: 1,
+    borderColor: '#e4e4e4',
   },
   statusBar: {
     height: STATUS_BAR_HEIGHT
@@ -38,50 +37,53 @@ const styles = StyleSheet.create({
     fontWeight: '500',
   },
   navBarButton: {
+    paddingHorizontal: 15,
     justifyContent: 'center',
-    marginLeft: 15,
-    marginRight: 15,
   }
 });
 
-const Header = ({leftText, onLeftPress, onRightPress, rightText, title, colorText, containerStyle}) =>
+const Header = ({ showNavBar = true, leftText, onLeftPress, onRightPress, rightText='', title, colorText, containerStyle, showStatusBar = true }) =>
   <View style={[styles.navBarContainer, containerStyle]}>
-      <View style={styles.statusBar}>
+    {
+      showStatusBar ? <View style={styles.statusBar}>
         <StatusBar
-            translucent={true}
-            backgroundColor={'#rgba(0, 0, 0, 0.2)'}
-            barStyle="default"
-            showHideTransition='slide'
-            style={styles.statusBar}
-            hidden={ false }
+          translucent={true}
+          backgroundColor={'#rgba(0, 0, 0, 0.2)'}
+          barStyle="default"
+          showHideTransition='slide'
+          style={styles.statusBar}
+          hidden={false}
         />
-      </View>
-
-      <View style={styles.navBar}>
+      </View> : null
+    }
+    {
+      !showNavBar ? null :
+        <View style={styles.navBar}>
 
           <View
-              style={styles.navBarTitleContainer}>
-              <Text style={[styles.navBarTitleText, {color: colorText}]}>{ title }</Text>
+            style={styles.navBarTitleContainer}>
+            <Text style={[styles.navBarTitleText, { color: colorText }]}>{title}</Text>
           </View>
 
           {
             leftText ? <TouchableOpacity
-                        onPress={onLeftPress}
-                        style={styles.navBarButton}>
-                        <Text style={{color: colorText}}>{leftText}</Text>
-                        </TouchableOpacity>
-                    : null
+              onPress={onLeftPress}
+              style={styles.navBarButton}>
+              <Text style={{ color: colorText }}>{leftText}</Text>
+            </TouchableOpacity>
+              : null
           }
 
           {
             rightText ? <TouchableOpacity
-                        onPress={onRightPress}
-                        style={styles.navBarButton}>
-                        <Text style={{color: colorText}}>{rightText}</Text>
-                        </TouchableOpacity>
-                    : null
+              onPress={onRightPress}
+              style={styles.navBarButton}>
+              <Text style={{ color: colorText }}>{rightText}</Text>
+            </TouchableOpacity>
+              : null
           }
-      </View>
+        </View>
+    }
   </View>
 
 export default Header;

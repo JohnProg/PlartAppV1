@@ -57,7 +57,7 @@ class SidebarContainer extends Component {
 }
 
 class Menu extends Component {
-  constructor(props){
+  constructor(props) {
     super(props)
     this.state = {
       user: {}
@@ -65,7 +65,7 @@ class Menu extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    this.setState({user: nextProps.getCurrentUser()});
+    this.setState({ user: nextProps.getCurrentUser() });
   }
 
   logout = () => {
@@ -79,9 +79,10 @@ class Menu extends Component {
         {
           text: 'Si',
           onPress: () => {
-            AsyncStorage.removeItem('user_data').then(() => {
+            AsyncStorage.removeItem('user').then(() => {
+              this.props.toggle();
               this.props.setCurrentUser({});
-              this.props.navigator.resetTo({component: Tutorial});
+              this.props.navigator.resetTo({ component: Tutorial });
             });
           }
         }
@@ -96,25 +97,25 @@ class Menu extends Component {
       <ScrollView
         scrollsToTop={false}
         contentContainerStyle={styles.containerMenu}>
-        <View style={{alignItems: 'center'}}>
+        <View style={{ alignItems: 'center' }}>
           <ImageLoader
             source={helpers.setImageByDefault(user, 'photo')}
-            style={[styles.avatar, {width: AVATAR_SIZE, height: AVATAR_SIZE}]}
-            indicatorStyle={{flex: 1, backgroundColor: 'rgba(220, 213, 228, 0.54)'}} />
-          <Text style={ styles.sectionSpeakerText }>
+            style={[styles.avatar, { width: AVATAR_SIZE, height: AVATAR_SIZE }]}
+            indicatorStyle={{ flex: 1, backgroundColor: 'rgba(220, 213, 228, 0.54)' }} />
+          <Text style={styles.sectionSpeakerText}>
             {`${user.first_name} ${user.last_name}`.length > 13 ? `${user.first_name} ${user.last_name}`.slice(0, 13) + '...' : `${user.first_name} ${user.last_name}`}
           </Text>
-          <Text style={ styles.sectionTitleText }>
+          <Text style={styles.sectionTitleText}>
             {user.username && user.username.length > 13 ? `${user.username.slice(0, 13)}...` : user.username}
           </Text>
         </View>
         <TouchableOpacity
-          onPress={ () => this.logout() }>
-            <Text style={styles.item}>Inicio</Text>
+          onPress={() => this.logout()}>
+          <Text style={styles.item}>Inicio</Text>
         </TouchableOpacity>
         <TouchableOpacity
-          onPress={ () => this.logout() }>
-            <Text style={styles.item}>Salir</Text>
+          onPress={() => this.logout()}>
+          <Text style={styles.item}>Salir</Text>
         </TouchableOpacity>
       </ScrollView>
     );

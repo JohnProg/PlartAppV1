@@ -15,22 +15,6 @@ export const itemWidth = slideWidth + itemHorizontalMargin * 2;
 let height = 150;
 
 const styles = StyleSheet.create({
-  cardContainer: {
-    flex:1,
-    flexDirection: 'column',
-    justifyContent: 'space-between',
-    padding: 20,
-    backgroundColor: "white",
-  },
-  cardTitle: {
-    textAlign: 'center',
-    fontWeight: '400',
-    fontSize: 22,
-  },
-  cardDescription: {
-    textAlign: 'justify',
-    fontSize: 16,
-  },
   buttonTextCard: {
     fontSize: 16,
     color: 'white',
@@ -89,7 +73,6 @@ const styles = StyleSheet.create({
       borderBottomRightRadius: 0
   },
   slide: {
-      flexDirection: 'column',
       width: itemWidth,
       paddingHorizontal: itemHorizontalMargin,
   }

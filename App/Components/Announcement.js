@@ -13,9 +13,9 @@ import styles from '../Styles/announcement.style.js';
 
 const { width: viewportWidth, height: viewportHeight } = Dimensions.get('window');
 
-function wp (percentage) {
-    const value = (percentage * viewportWidth) / 100;
-    return Math.round(value);
+function wp(percentage) {
+  const value = (percentage * viewportWidth) / 100;
+  return Math.round(value);
 }
 
 const slideHeight = (viewportHeight / 1.4);
@@ -25,69 +25,75 @@ export const sliderWidth = viewportWidth;
 export const itemHorizontalMargin = wp(2);
 export const itemWidth = slideWidth + itemHorizontalMargin * 2;
 
-export default  class Slider extends Component {
-  constructor(props) {
-    super(props);
-  }
+const Slider = ({ firstItem, items, updateAnnouncements }) => {
+  const getSlides = (entries) => {
+    if (!entries) {
+      return false;
+    }
 
-  render () {
-    return (
-        <Carousel
-          {...this.props}
-          renderItem={ (entry) => {
-            return (
-                <Announcement {...entry} updateAnnouncements={this.props.updateAnnouncements.bind(this)}/>
-            );
-          }}
-          inactiveSlideScale={0.94}
-          inactiveSlideOpacity={0.6}
-          enableMomentum={false}
-          sliderWidth={sliderWidth}
-          itemWidth={itemWidth}
-          slideStyle={styles.slide}
-          showsHorizontalScrollIndicator={false}
-          snapOnAndroid={true}
-          removeClippedSubviews={false}
+    return entries.map((entry, index) => {
+      return (
+        <Announcement
+          {...entry}
+          key={index}
+          updateAnnouncements={updateAnnouncements}
         />
-    );
+      );
+    });
   }
+  return (
+    <Carousel
+      inactiveSlideScale={0.94}
+      inactiveSlideOpacity={0.6}
+      enableMomentum={false}
+      sliderWidth={sliderWidth}
+      itemWidth={itemWidth}
+      slideStyle={styles.slide}
+      showsHorizontalScrollIndicator={false}
+      snapOnAndroid={true}
+      removeClippedSubviews={false}
+    >
+      {getSlides(items)}
+    </Carousel>
+  );
 }
 
-const Announcement = ({id, name, budget, currency, date_finish, description, links, photo, company_logo, updateAnnouncements}) =>  {
+const Announcement = ({ id, name, budget, currency, date_finish, description, links, photo, company_logo, updateAnnouncements }) => {
   const urlApply = links.apply;
   const urlReject = links.remove_apply;
   const dateToFinish = Moment(date_finish).format('YYYY-MM-DD');
-  const imageUrl = photo ? {uri: photo} : require('./../Images/adDefaultImage.jpg');
+  const imageUrl = photo ? { uri: photo } : require('./../Images/adDefaultImage.jpg');
   return (
     <TouchableOpacity
       activeOpacity={0.9}
-      style={{height: slideHeight}}
-      onPress={() => alert(21)}>
-        <View style={{flex: 1, backgroundColor: '#888888', overflow: 'hidden', borderBottomLeftRadius: 0, borderBottomRightRadius: 0, borderTopLeftRadius: 6, borderTopRightRadius: 6}}>
-            <Image source={ imageUrl } style={styles.image}/>
+      style={{ height: slideHeight }}>
+      <View style={{ flex: 1, backgroundColor: '#888888', overflow: 'hidden', borderBottomLeftRadius: 0, borderBottomRightRadius: 0, borderTopLeftRadius: 6, borderTopRightRadius: 6 }}>
+        <Image source={imageUrl} style={styles.image} />
+      </View>
+      <View style={{ justifyContent: 'center', paddingVertical: 20, paddingHorizontal: 16, backgroundColor: 'white', borderBottomLeftRadius: 6, borderBottomRightRadius: 6 }}>
+        <View style={{ paddingBottom: 10 }}>
+          <Text style={{ color: '#1a1917', fontSize: 13, fontWeight: 'bold', letterSpacing: 0.5 }} numberOfLines={2}>{name.toUpperCase()}</Text>
+          <Text style={{ marginTop: 6, color: '#888888', fontSize: 12, fontStyle: 'italic' }} numberOfLines={4}>{description}</Text>
+          <Text style={{ marginTop: 6, color: '#888888', fontSize: 12 }}>Pago: {currency} {budget}</Text>
+          <Text style={{ marginTop: 6, color: '#888888', fontSize: 12 }}>Fecha Límite: {dateToFinish}</Text>
         </View>
-        <View style={{justifyContent: 'center', paddingVertical: 20, paddingHorizontal: 16, backgroundColor: 'white', borderBottomLeftRadius: 6, borderBottomRightRadius: 6}}>
-            <View style={{paddingBottom: 10}}>
-              <Text style={{color: '#1a1917', fontSize: 13, fontWeight: 'bold', letterSpacing: 0.5}} numberOfLines={2}>{ name.toUpperCase() }</Text>
-              <Text style={{marginTop: 6, color: '#888888', fontSize: 12, fontStyle: 'italic'}} numberOfLines={4}>{ description }</Text>
-              <Text style={{marginTop: 6, color: '#888888', fontSize: 12}}>Pago: {currency} {budget}</Text>
-              <Text style={{marginTop: 6, color: '#888888', fontSize: 12}}>Fecha Límite: {dateToFinish}</Text>
-            </View>
-            <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-                 <TouchableOpacity
-                   style={[styles.buttonCard, styles.buttonCardType2]}
-                   onPress={ () => updateAnnouncements(urlReject, id, 'reject') }
-                   underlayColor="white">
-                     <Text style={[styles.buttonTextCard, {color: '#673AB7'}]}>Rechazar</Text>
-                 </TouchableOpacity>
-                 <TouchableOpacity
-                    onPress={ () => updateAnnouncements(urlApply, id, 'apply') }
-                    style={[styles.buttonCard, styles.buttonCardType1]}
-                    underlayColor="white">
-                    <Text style={styles.buttonTextCard}>Aceptar</Text>
-                 </TouchableOpacity>
-             </View>
+        <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+          <TouchableOpacity
+            style={[styles.buttonCard, styles.buttonCardType2]}
+            onPress={() => updateAnnouncements(urlReject, id, 'reject')}
+            underlayColor="white">
+            <Text style={[styles.buttonTextCard, { color: '#673AB7' }]}>Rechazar</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => updateAnnouncements(urlApply, id, 'apply')}
+            style={[styles.buttonCard, styles.buttonCardType1]}
+            underlayColor="white">
+            <Text style={styles.buttonTextCard}>Aceptar</Text>
+          </TouchableOpacity>
         </View>
+      </View>
     </TouchableOpacity>
   );
 }
+
+export default Slider;

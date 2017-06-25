@@ -19,7 +19,7 @@ export default class PushNotification extends Component {
     FCM.getInitialNotification().then(notif => {
       console.log("INITIAL NOTIFICATION WHEN APP WAS CLOSED", notif);
       if (notif && notif.opened_from_tray) {
-       //app is open/resumed because user clicked banner
+        //app is open/resumed because user clicked banner
       }
     });
 
@@ -27,7 +27,7 @@ export default class PushNotification extends Component {
     this.notificationUnsubscribe = FCM.on("notification", notif => {
       console.log("Notification", notif);
       if (notif && notif.opened_from_tray) {
-       //app is open/resumed because user clicked banner
+        //app is open/resumed because user clicked banner
       }
     });
 

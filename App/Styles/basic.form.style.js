@@ -3,11 +3,14 @@ import {
 } from 'react-native';
 
 const styles = StyleSheet.create({
+  mainContainer: {
+    flex: 1, 
+    backgroundColor: '#673AB7',
+  },
   container: {
-    flex:1,
+    flex:1, 
     justifyContent: 'center',
-    paddingLeft: 40,
-    paddingRight: 40,
+    paddingHorizontal: 40,
     backgroundColor: '#673AB7',
   },
   textField: {
