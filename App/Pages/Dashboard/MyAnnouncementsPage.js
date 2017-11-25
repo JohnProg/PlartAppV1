@@ -44,14 +44,9 @@ export default class MyAnnouncementsPage extends Component {
 
   getMyAdvertisements() {
     this.setState({ areAnnouncementsLoading: true });
-    api.getAdvertisements(this.state.token)
+    api.getMyAdvertisements(this.state.token)
       .then((responseData) => {
-        let announcements = [];
-
-        if (responseData) {
-          announcements = responseData.results.reverse();
-          announcements = announcements.filter(element => element.apply === false);
-        }
+        let announcements = responseData.length > 0 ? responseData.reverse() : [];
 
         this.setState({ announcements, dataSource: this.state.dataSource.cloneWithRows(announcements), areAnnouncementsLoading: false, isRefreshing: false });
       });
@@ -63,22 +58,23 @@ export default class MyAnnouncementsPage extends Component {
     if (areAnnouncementsLoading) {
       return <SimpleLoader />;
     } else {
-      if (announcements && announcements.length > 0) {
-        return <ListView
+      return (
+        <ListView
+          contentContainerStyle={{
+            flex: announcements.length > 0 ? 0 : 1,
+            justifyContent: announcements.length > 0 ? 'flex-start' : 'center',
+            alignItems: announcements.length > 0 ? 'stretch' : 'center',
+          }}
           ref="listView"
-          renderRow={(e) => this.renderRow(e)}
+          renderRow={this.renderRow}
           renderFooter={() => {
-            return <View style={{ height: 50 }} />
+            return announcements.length > 0 ? <View style={{ height: 50 }} /> : <Text style={{ color: 'white' }}>No tienes anuncios creados.</Text>
           }}
           enableEmptySections={true}
           dataSource={dataSource}
           refreshControl={this.renderRefreshControl()}
         />
-      } else {
-        return <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-          <Text style={{ textAlign: 'center', color: 'white', marginTop: 70 }}>No tienes anuncios creados.</Text>
-        </View>
-      }
+      )
     }
   }
 
@@ -92,20 +88,16 @@ export default class MyAnnouncementsPage extends Component {
       component: MyAnnouncementDetailPage,
       passProps: {
         item,
-        parentComponent: this,
       }
     });
   }
 
-  renderRow(item, sectionID, rowID) {
-    let { navigator } = this.props;
-    return (
-      <MyAdCeil
+  renderRow = (item, sectionID, rowID) => (
+    <MyAdCeil
         key={item.id}
         onSelectItem={() => this.onSelectItem(item)}
         item={item} />
-    );
-  }
+  );
 
   renderRefreshControl() {
     return (
@@ -120,7 +112,7 @@ export default class MyAnnouncementsPage extends Component {
 
   render() {
     return (
-      <View style={{ flex: 1, backgroundColor: '#673AB7' }}>
+      <View style={{ flex: 1, backgroundColor: "#673AB7", marginBottom: 40 }}>
         {this.renderAnnouncements()}
       </View>
     );

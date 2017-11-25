@@ -36,13 +36,13 @@ export default class PublicProfilePage extends Component {
     this.state = {
       isLoading: false,
       isLoadingAvatar: true,
-      user: props.getCurrentUser(),
+      user: this.props.user,
       photo: props.photo,
     }
   }
 
   componentWillReceiveProps(nextProps) {
-    this.setState({ user: nextProps.getCurrentUser() });
+    this.setState({ user: nextProps.user });
   }
 
   _renderProfiles(user) {
@@ -68,12 +68,11 @@ export default class PublicProfilePage extends Component {
 
   render() {
     let user = this.state.user;
-    let photo = this.state.photo;
 
     return (
       <View style={{ flex: 1, backgroundColor: 'white' }}>
         <Header
-          title="John"
+          title={user.name}
           leftText={<Icon2 name='angle-left' size={30} />}
           onLeftPress={() => this.props.navigator.pop()}
         />
@@ -82,12 +81,12 @@ export default class PublicProfilePage extends Component {
           renderForeground={() => (
             <View key="parallax-header" style={styles.parallaxHeader}>
               <ImageLoader
-                source={helpers.setImageByDefault({photo}, 'photo')}
+                source={helpers.setImageByDefault(user, 'photo')}
                 indicatorStyle={{ flex: 1, backgroundColor: 'rgba(220, 213, 228, 0.54)', borderRadius: AVATAR_SIZE / 2 }}
                 style={[styles.avatar, { width: AVATAR_SIZE, height: AVATAR_SIZE }]}
                 imageLoaded={this.updateLoadingAvatar.bind(this)} />
               <Text style={styles.sectionSpeakerText}>
-                {`${user.first_name} ${user.last_name}`.length > 15 ? `${user.first_name} ${user.last_name}`.slice(0, 15) + '...' : `${user.first_name} ${user.last_name}`}
+                {`${user.name}`.length > 15 ? `${user.name}`.slice(0, 15) + '...' : `${user.name}`}
               </Text>
               <Text style={styles.sectionTitleText}>
                 {user.username && user.username.length > 15 ? `${user.username.slice(0, 15)}...` : user.username}

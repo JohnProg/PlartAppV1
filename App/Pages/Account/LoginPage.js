@@ -37,9 +37,9 @@ export default class Login extends Component {
   login = () => {
     this.setState({ isLoading: true });
     api.authWithPassword({
-      'username': this.state.email,
-      'password': this.state.password,
-      'device_key': this.state.device_key
+      username: this.state.email,
+      password: this.state.password,
+      device_key: this.state.device_key,
     })
       .then(authData => {
         this.setState({ isLoading: false });

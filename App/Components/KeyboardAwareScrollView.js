@@ -9,8 +9,6 @@ export class KeyboardAwareScrollView extends Component {
     this.state = {
       keyboardSpace: 0,
     }
-    this.updateKeyboardSpace = this.updateKeyboardSpace.bind(this)
-    this.resetKeyboardSpace = this.resetKeyboardSpace.bind(this)
   }
 
   // Keyboard actions
@@ -35,14 +33,14 @@ export class KeyboardAwareScrollView extends Component {
 
   componentDidMount() {
     // Keyboard events
-    Keyboard.addListener('keyboardWillShow', this.updateKeyboardSpace)
-    Keyboard.addListener('keyboardWillHide', this.resetKeyboardSpace)
+    this.keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', this.updateKeyboardSpace.bind(this))
+    this.keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', this.resetKeyboardSpace.bind(this))
   }
 
   componentWillUnmount() {
     // TODO: figure out if removeAllListeners is the right thing to do
-    Keyboard.removeAllListeners('keyboardWillShow')
-    Keyboard.removeAllListeners('keyboardWillHide')
+    this.keyboardDidShowListener.remove();
+    this.keyboardDidHideListener.remove();
   }
 
   /**

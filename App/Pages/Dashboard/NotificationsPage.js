@@ -33,7 +33,7 @@ export default class NotificationsPage extends Component {
       let user_data = JSON.parse(user_data_json);
 
       this.setState({ token: user_data['token'] });
-      this.getNotifications();
+      // this.getNotifications();
     });
   }
 

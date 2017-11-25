@@ -24,17 +24,17 @@ const MyAdCeil = ({ item, onSelectItem }) => (
         <View style={{ flex: .8, marginLeft: 10 }}>
           <Text style={{ color: '#1a1917', fontSize: 14, fontWeight: 'bold', letterSpacing: 0.5, marginBottom: 2 }} numberOfLines={1}>{item.name.toUpperCase()}</Text>
           <Text style={{ marginTop: 6, color: '#888888', fontSize: 12 }}>Pago: {item.currency} {item.budget}</Text>
-          <Text style={{ marginTop: 6, color: '#888888', fontSize: 12 }}>Fecha Límite: {Moment(item.date_finish).format('YYYY-MM-DD')}</Text>
+          <Text style={{ marginTop: 6, color: '#888888', fontSize: 12 }}>Fecha Límite: {Moment(item.date_finish).format('DD-MM-YYYY')}</Text>
         </View>
       </View>
       <View style={{ flexDirection: 'row' }}>
         <Text>Postulantes:  </Text>
         {
-          item.profiles.length === 0 ? null : [1,2,3,4,5].map((result, i) => {
+          item.users.length > 0 && item.users.map((user, i) => {
             return <Image
               key={i}
               style={{ width: 22, height: 22, margin: 2 }}
-              source={require('./../../Images/adDefaultImage.jpg')}
+              source={user.photo ? { uri: user.photo } : require('./../../Images/adDefaultImage.jpg')}
             />
           })
         }

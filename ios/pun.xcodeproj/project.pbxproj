@@ -520,6 +520,15 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		1B81E1BC1F984D3F003CEC4E /* Recovered References */ = {
+			isa = PBXGroup;
+			children = (
+				ADEDAFC1CD3E4D4B9687EC24 /* libRNVectorIcons.a */,
+				DDA3E3FC74404B80BD64E2F0 /* libRCTToast.a */,
+			);
+			name = "Recovered References";
+			sourceTree = "<group>";
+		};
 		1BDF5E5F1EFF19A400DC6993 /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -615,6 +624,7 @@
 				7C83B70B2C9D4382A6E79CAD /* Resources */,
 				142A8EEF6D70BC9B66285DA2 /* Pods */,
 				712B531651DC10ACF12289CB /* Frameworks */,
+				1B81E1BC1F984D3F003CEC4E /* Recovered References */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -728,10 +738,12 @@
 					};
 					2D02E47A1E0B4A5D006451C7 = {
 						CreatedOnToolsVersion = 8.2.1;
+						DevelopmentTeam = 23T83D5J4U;
 						ProvisioningStyle = Automatic;
 					};
 					2D02E48F1E0B4A5D006451C7 = {
 						CreatedOnToolsVersion = 8.2.1;
+						DevelopmentTeam = 23T83D5J4U;
 						ProvisioningStyle = Automatic;
 						TestTargetID = 2D02E47A1E0B4A5D006451C7;
 					};
@@ -1332,6 +1344,7 @@
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = 23T83D5J4U;
 				ENABLE_TESTABILITY = YES;
 				GCC_NO_COMMON_BLOCKS = YES;
 				HEADER_SEARCH_PATHS = (
@@ -1371,6 +1384,7 @@
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = 23T83D5J4U;
 				GCC_NO_COMMON_BLOCKS = YES;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1407,6 +1421,7 @@
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = 23T83D5J4U;
 				ENABLE_TESTABILITY = YES;
 				GCC_NO_COMMON_BLOCKS = YES;
 				INFOPLIST_FILE = "pun-tvOSTests/Info.plist";
@@ -1434,6 +1449,7 @@
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = 23T83D5J4U;
 				GCC_NO_COMMON_BLOCKS = YES;
 				INFOPLIST_FILE = "pun-tvOSTests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";

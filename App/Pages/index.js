@@ -14,11 +14,11 @@ export default class Main extends Component {
     this.state = {
       component: Steps,
       isLoading: true,
-      user: {}
+      user: null,
     };
   }
 
-  componentWillMount() {
+  componentDidMount() {
     const componentSteps = { component: Steps, isLoading: false };
 
     AsyncStorage.getItem('user').then((userDataStorage) => {
@@ -26,21 +26,23 @@ export default class Main extends Component {
         this.setState(componentSteps);
         return;
       }
-      
+
       const user_data = JSON.parse(userDataStorage);
       const token = user_data['token'];
-      
+
       if (user_data && token !== undefined) {
         api.authWithToken(token)
           .then((authData) => {
-            if (!authData.step_1) this.setState({ component: Features, isLoading: false });
-            else if (!authData.step_2) this.setState({ component: PersonalInfoPage, isLoading: false });
-            else {
+            if (!authData.step_1) {
+              this.setState({ component: Features, isLoading: false });
+            } else if (!authData.step_2) {
+              this.setState({ component: PersonalInfoPage, isLoading: false });
+            } else {
               api.getProfile(token)
-              .then((userData) => {
-                userData.token = authData.token;
-                this.setState({ user: userData, component: Dashboard, isLoading: false });
-              });
+                .then((userData) => {
+                  userData.token = authData.token;
+                  this.setState({ user: userData, component: Dashboard, isLoading: false });
+                });
             }
           })
           .catch(errorObj => this.setState(componentSteps));

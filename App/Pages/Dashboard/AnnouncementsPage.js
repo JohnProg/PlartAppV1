@@ -27,9 +27,9 @@ export default class AdvertisementsPage extends Component {
       locations: [],
       professions: [],
       isRefreshing: false,
-      areAnnouncementsLoading: true,
-      areLocationsLoading: true,
-      areProfessionsLoading: true,
+      areAnnouncementsLoading: false,
+      areLocationsLoading: false,
+      areProfessionsLoading: false,
       token: '',
       modal: false,
     }
@@ -40,23 +40,24 @@ export default class AdvertisementsPage extends Component {
       let user_data = JSON.parse(user_data_json);
 
       this.setState({ token: user_data['token'] });
-      this.getAdvertisements();
+      this.getAdvertisements(true);
     });
 
     AsyncStorage.getItem('professions')
       .then(professionsDataStorage => {
         if (!professionsDataStorage) this.getProfessions();
-        else this.setState({ professions: JSON.parse(professionsDataStorage), areLocationsLoading: false });
+        else this.setState({ professions: JSON.parse(professionsDataStorage) });
       });
 
     AsyncStorage.getItem('locations')
       .then(locationsDataStorage => {
         if (!locationsDataStorage) this.getLocations();
-        else this.setState({ locations: JSON.parse(locationsDataStorage), areProfessionsLoading: false });
+        else this.setState({ locations: JSON.parse(locationsDataStorage) });
       });
   }
 
   getProfessions() {
+    this.setState({ areProfessionsLoading: true });
     api.getProfessions()
       .then((responseData) => {
         AsyncStorage.setItem('professions', JSON.stringify(responseData));
@@ -65,6 +66,7 @@ export default class AdvertisementsPage extends Component {
   }
 
   getLocations() {
+    this.setState({ areLocationsLoading: true });
     api.getLocations(this.state.token)
       .then((responseData) => {
         AsyncStorage.setItem('locations', JSON.stringify(responseData));
@@ -74,11 +76,11 @@ export default class AdvertisementsPage extends Component {
 
   refreshAnnouncements = () => {
     this.setState({ isRefreshing: true });
-    this.getAdvertisements();
+    this.getAdvertisements(false);
   }
 
-  getAdvertisements() {
-    this.setState({ areAnnouncementsLoading: true });
+  getAdvertisements(isInitial = false) {
+    if (isInitial) this.setState({ areAnnouncementsLoading: true });
     api.getAdvertisements(this.state.token)
       .then((responseData) => {
         let announcements = [];
@@ -138,16 +140,15 @@ export default class AdvertisementsPage extends Component {
     }
   }
 
-  renderRefreshControl() {
-    return (
-      <RefreshControl
-        refreshing={this.state.isRefreshing}
-        onRefresh={this.refreshAnnouncements}
-        tintColor="#fff"
-        title="Cargando..."
-        titleColor="#fff"
-      />);
-  }
+  renderRefreshControl = () => (
+    <RefreshControl
+      refreshing={this.state.isRefreshing}
+      onRefresh={this.refreshAnnouncements}
+      tintColor="#fff"
+      title="Cargando..."
+      titleColor="#fff"
+    />
+  )
 
   render() {
     let { modal, locations, professions, areAnnouncementsLoading, areLocationsLoading, areProfessionsLoading, announcements, isRefreshing, token } = this.state;

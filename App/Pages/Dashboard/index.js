@@ -33,7 +33,7 @@ export default class Dashboard extends Component {
   }
 
   componentDidMount() {
-    if (Object.keys(this.props.getCurrentUser()).length == 0) {
+    if (this.props.getCurrentUser() === null || Object.keys(this.props.getCurrentUser()).length == 0) {
       AsyncStorage.getItem('user').then((user_data_json) => {
         let token = JSON.parse(user_data_json)['token'];
         api.getProfile(token)

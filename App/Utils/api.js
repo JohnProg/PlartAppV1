@@ -93,6 +93,9 @@ export default {
   getNotifications(token) {
     return getData(`${API_URL}/notifications/`, token);
   },
+  getUserPublicProfileData(token) {
+    return getData(`${API_URL}/other-users/`, token);
+  },
   getLocations(token) {
     return getData(`${API_URL}/locations/`, token);
   },
