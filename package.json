@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "start": "node node_modules/react-native/local-cli/cli.js start",
-    "test": "jest --coverage"
+    "test": "jest --coverage",
+    "api": "json-server api-mock/db.json --port 5000 --middlewares mock-api/login-middleware.js --watch"
   },
   "dependencies": {
     "@remobile/react-native-toast": "^1.0.6",

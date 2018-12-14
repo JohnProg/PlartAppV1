@@ -63,7 +63,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     padding: 20,
     paddingTop: 5,
-    paddingBottom: 40
+    paddingBottom: 40,
+    backgroundColor: 'blue'
   },
   separator: {
     backgroundColor: "rgba(0, 0, 0, 0.1)",

@@ -176,7 +176,7 @@ export default class Profile extends Component {
               </View>
             </View>
           )}>
-          <ScrollableTabView style={{marginTop: -5}}
+          <ScrollableTabView style={{marginTop: -5, backgroundColor: 'red'}}
               renderTabBar={() => <ScrollableTabBar underlineStyle={{backgroundColor: colors.purple}} renderTab={this.renderTab}/>}
               tabBarPosition={'top'}>
               <View style={styles.mainSection} tabLabel={'person'} key={'person'}>
