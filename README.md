@@ -1,7 +1,7 @@
 # PlartAppV1
 Plart App V1 using React Native 2017 without Redux
 
-# Landing Page
+## Landing Page
 https://johnprog.github.io/plartApp-landing-page/
 
 
